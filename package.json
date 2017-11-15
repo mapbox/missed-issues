@@ -1,0 +1,38 @@
+{
+  "name": "@mapbox/missed-issues",
+  "version": "1.0.0",
+  "description":
+    "Find all issues in a github org that mention a team by have not be replied to by the team members",
+  "main": "index.js",
+  "bin": {
+    "missed-issues": "bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged",
+    "lint": "eslint .",
+    "format":
+      "prettier --single-quote --write \"{,rules/*,utils/*,test/**/}*.{js,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapbox/missed-issues.git"
+  },
+  "keywords": ["github", "org", "tickets", "issues"],
+  "author": "Matthew Chase Whittemore",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mapbox/missed-issues/issues"
+  },
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3",
+    "prettier": "^1.7.4"
+  },
+  "homepage": "https://github.com/mapbox/missed-issues#readme",
+  "lint-staged": {
+    "*.json": ["prettier --single-quote --write", "git add"],
+    "*.js": ["eslint .", "prettier --single-quote --write", "git add"]
+  }
+}
