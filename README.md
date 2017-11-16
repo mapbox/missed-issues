@@ -1,6 +1,6 @@
 # Missed Issues
 
-A CLI tool for finding issues that mention a team but no one has responded to from the team.
+A CLI tool for finding issues that mention a team and no one from the team has responded to the issue.
 
 `missed-issues --org mapbox --team teamname --token github_token`
 
