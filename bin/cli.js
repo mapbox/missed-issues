@@ -1,15 +1,18 @@
 #!/usr/bin/env node
+
+// run config if requested
+if (process.argv[2] === 'config') {
+  require('./config');
+  process.exit();
+}
+
+// main program
 const path = require('path');
 require('dotenv').load(path.join(__dirname, '..', '.env'));
+
 const missedIssues = require('../index');
 
-var envFlags = {
-  token: 'GITHUB_TOKEN',
-  team: 'MISSED_ISSUES_TEAM',
-  org: 'MISSED_ISSUES_ORG',
-  'ignore-repos': 'MISSED_ISSUES_IGNORE_REPOS',
-  nonmembers: 'MISSED_ISSUES_NON_MEMBERS'
-};
+var envFlags = require('./flag-envs.json');
 
 // PROCESS ARGS
 const opts = process.argv.slice(2).reduce((m, v, i, a) => {

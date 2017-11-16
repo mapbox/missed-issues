@@ -36,9 +36,11 @@ This will list all issues in the mapbox org that mention `@mapbox/teamname` wher
 - `--max-issues`: the max number of issues to get before filtering to help avoid long requests. Defaults to 100. That said, hitting this max is bad for your results.
 - `--nonmembers`: a comma-separated list of user logins who should not be used to count a ticket as replied too.
 
-## Environment Variables
+## Configuration
 
-`missed-issues` allows you to use environment variables to set unprovided flags. This is very helpful if you are running this for a single team or a single org and it lets you not paste your GitHub token into your terminal over and over again.
+`missed-issues` allows you to configure defaults for unprovided flags. This is very helpful if you are running this for a single team or a single org and it lets you not paste your GitHub token into your terminal over and over again.
+
+Configuration is powered by environment variables and can thus be set via your `.profile` or simular shell setup tool.
 
 Below is a list of env vars `missed-issues` supports. The value of the env var is the flag the key will set.
 
@@ -50,6 +52,41 @@ MISSED_ISSUES_IGNORE_REPOS=ignore-repos
 MISSED_ISSUES_NON_MEMBERS=nonmembers
 ```
 
-**.env files**
+### Viewing Configuration via the CLI
 
-If you have a `.env` file in the folder returned by `which missed-issues` then `missed-issues` will auto load these env vars on every run.
+`missed-issues config`
+
+This will print out of flags as set via environment variables and config.
+
+```sh
+Current configuration
+		token: fake-token
+		team: just-a-team
+		org: just-an-org
+		ignore-repos: <NOT SET>
+		nonmembers: <NOT SET>
+```
+
+`<NOT SET>` indicates that the value will not be set via the config or current environment variables.
+
+## Setting Configuration via the CLI
+
+`missed-issues config <flag> <value>`
+
+This commands sets the value of a flag perminitly in your `missed-issues` config file.
+
+**flags**
+
+The below flags can be stored
+
+- token
+- org
+- team
+- ignore-repos
+- nonmembers
+
+**values**
+
+All values should match that desribed in the flags section but validation is not provided at this step. The value must be set. To unset a flag try `missed-issues config <flag> ""`.
+
+

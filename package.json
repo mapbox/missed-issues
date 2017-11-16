@@ -1,5 +1,5 @@
 {
-  "name": "@mapbox/missed-issues",
+  "name": "missed-issues",
   "version": "1.0.0",
   "description":
     "Find all issues in a github org that mention a team by have not be replied to by the team members",
@@ -34,5 +34,6 @@
   "lint-staged": {
     "*.json": ["prettier --single-quote --write", "git add"],
     "*.js": ["eslint .", "prettier --single-quote --write", "git add"]
-  }
+  },
+  "dependencies": {}
 }
