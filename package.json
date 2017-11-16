@@ -35,5 +35,7 @@
     "*.json": ["prettier --single-quote --write", "git add"],
     "*.js": ["eslint .", "prettier --single-quote --write", "git add"]
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^4.0.0"
+  }
 }

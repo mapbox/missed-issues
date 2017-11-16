@@ -2,8 +2,7 @@
 
 A CLI tool for finding issues that mention a team and no one from the team has responded to the issue.
 
-
-This will list all issues in the mapbox org that mention `@mapbox/teamname` where no member of that team has replied to the issue since the mention.
+This will list all issues in the mapbox org that mention `@mapbox/teamname` where no member of that team has replied to the issue since the mention. To help cut down on commenting for commenting's sake, it also accepts 👍 on the original post as acknowledgement of the issue if no comments below mention the team.
 
 ```sh
 > missed-issues --org mapbox --team teamname --token github_token
@@ -21,7 +20,17 @@ This will list all issues in the mapbox org that mention `@mapbox/teamname` wher
 - [ ] [#42 - Document the node module interface](https://github.com/mapbox/missed-issues/issues/new)
 ```
 
-## Flags
+## Usage
+
+`npm install @mapbox/missed-issues -g`
+
+Go to [Personal access tokens](https://github.com/settings/tokens) in GitHub and create a token with `read:org` and `repo` access and than run the follow command. This will store your token in a config file so that you don't have to type `--token [redacted]` every time you run `missed-issues`.
+
+```
+missed-issues config token [redacted]`
+```
+
+## Command Options
 
 **Required**
 

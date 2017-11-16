@@ -1,3 +1,8 @@
+# 1.2.0
+
+- Support for 👍 reactions[#3](https://github.com/mapbox/missed-issues/pull/3)
+- Fix bug where `dotenv` was not in the package.json
+
 # 1.1.0
 
 - Allow users to manage their configration via the cli [#2](https://github.com/mapbox/missed-issues/pull/2)
