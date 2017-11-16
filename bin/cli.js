@@ -38,9 +38,13 @@ opts['ignore-repos'] = opts['ignore-repos']
 if (opts['max-issues']) opts['max-issues'] = parseInt(opts['max-issues']);
 opts['max-issues'] = opts['max-issues'] || 100;
 
-var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
-var defaultAfter = new Date(Date.now() - ONE_WEEK).toISOString().split('T')[0];
-opts.from = opts.from || defaultAfter;
+var ONE_DAY = 1000 * 60 * 60 * 24;
+// if undefined set to 7 days ago
+// if in the `#d` format parse and set to # days ago
+if (opts.from === undefined || opts.from[opts.from.length - 1] === 'd') {
+  var days = opts.from ? parseInt(opts.from.replace('d', '')) : 7;
+  opts.from = new Date(Date.now() - ONE_DAY * days).toISOString().split('T')[0];
+}
 
 opts.nonmembers = opts.nonmembers ? opts.nonmembers.split(',') : [];
 
