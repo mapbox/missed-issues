@@ -5,15 +5,16 @@ const missedIssues = require('../index');
 
 var envFlags = {
   token: 'GITHUB_TOKEN',
-  team: 'GITHUB_TEAM',
-  org: 'GITHUB_ORG'
+  team: 'MISSED_ISSUES_TEAM',
+  org: 'MISSED_ISSUES_ORG',
+  'ignore-repos': 'MISSED_ISSUES_IGNORE_REPOS'
 };
 
 const opts = process.argv.slice(2).reduce((m, v, i, a) => {
   if (v[0] !== '-') return m;
   if (v[1] !== '-' && v.indexOf('=') === -1)
     throw new Error(`Invalid argument '${v}'`);
-  var args = v.replace(/-/g, '').split('=');
+  var args = v.replace(/^[-]*/g, '').split('=');
   if (args[1] === undefined) args[1] = a[i + 1];
   m[args[0]] = args[1];
   return m;
@@ -25,6 +26,13 @@ Object.keys(envFlags).forEach(flag => {
     opts[flag] = envVal;
   }
 });
+
+opts['ignore-repos'] = opts['ignore-repos']
+  ? opts['ignore-repos'].split(',')
+  : [];
+
+if (opts['max-issues']) opts['max-issues'] = parseInt(opts['max-issues']);
+opts['max-issues'] = opts['max-issues'] || 100;
 
 missedIssues(opts)
   .then(issues => {
