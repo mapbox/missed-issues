@@ -29,7 +29,7 @@ module.exports = function(opts) {
     )
     .then(() =>
       getTeamMembers(opts, teamInfo).then(mem => {
-        teamMembers = mem;
+        teamMembers = mem.filter(mem => opts.nonmembers.indexOf(mem) === -1);
         logger('Num Members: ' + mem.length);
       })
     )
@@ -46,7 +46,9 @@ module.exports = function(opts) {
 };
 
 function logger(msg) {
-  console.log('[missed-issues] ' + msg); // eslint-disable-line no-console
+  if (process.env.DEBUG === 'missed-issues') {
+    console.log('[missed-issues] ' + msg); // eslint-disable-line no-console
+  }
 }
 
 function filterIssues(issues, members) {
@@ -108,7 +110,7 @@ function getComments(opts, ticket, page) {
 function findIssues(opts, page, numBefore) {
   page = page || 1;
   numBefore = numBefore || 0;
-  var q = `team:${opts.org}/${opts.team} state:open`;
+  var q = `team:${opts.org}/${opts.team} state:open updated:>=${opts.from}`;
   return safeGh(`search/issues?q=${q}&page=${page}&sort=updated&order=desc`, {
     token: opts.token
   }).then(resp => {

@@ -7,9 +7,11 @@ var envFlags = {
   token: 'GITHUB_TOKEN',
   team: 'MISSED_ISSUES_TEAM',
   org: 'MISSED_ISSUES_ORG',
-  'ignore-repos': 'MISSED_ISSUES_IGNORE_REPOS'
+  'ignore-repos': 'MISSED_ISSUES_IGNORE_REPOS',
+  nonmembers: 'MISSED_ISSUES_NON_MEMBERS'
 };
 
+// PROCESS ARGS
 const opts = process.argv.slice(2).reduce((m, v, i, a) => {
   if (v[0] !== '-') return m;
   if (v[1] !== '-' && v.indexOf('=') === -1)
@@ -20,6 +22,7 @@ const opts = process.argv.slice(2).reduce((m, v, i, a) => {
   return m;
 }, {});
 
+// SET ENV VALUES
 Object.keys(envFlags).forEach(flag => {
   var envVal = process.env[envFlags[flag]];
   if (opts[flag] === undefined && envVal) {
@@ -27,6 +30,7 @@ Object.keys(envFlags).forEach(flag => {
   }
 });
 
+// SET DEFAULTS
 opts['ignore-repos'] = opts['ignore-repos']
   ? opts['ignore-repos'].split(',')
   : [];
@@ -34,6 +38,13 @@ opts['ignore-repos'] = opts['ignore-repos']
 if (opts['max-issues']) opts['max-issues'] = parseInt(opts['max-issues']);
 opts['max-issues'] = opts['max-issues'] || 100;
 
+var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
+var defaultAfter = new Date(Date.now() - ONE_WEEK).toISOString().split('T')[0];
+opts.from = opts.from || defaultAfter;
+
+opts.nonmembers = opts.nonmembers ? opts.nonmembers.split(',') : [];
+
+// RUN
 missedIssues(opts)
   .then(issues => {
     var lastRepo = null;
