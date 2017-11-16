@@ -2,9 +2,24 @@
 
 A CLI tool for finding issues that mention a team and no one from the team has responded to the issue.
 
-`missed-issues --org mapbox --team teamname --token github_token`
 
 This will list all issues in the mapbox org that mention `@mapbox/teamname` where no member of that team has replied to the issue since the mention.
+
+```sh
+> missed-issues --org mapbox --team teamname --token github_token
+```
+
+**Possible output**
+
+```md
+## check-file-dependencies
+
+- [ ] [#1123 - Consider evaluating expressions](https://github.com/mapbox/check-file-dependencies/issues/new)
+
+## missed-issues
+
+- [ ] [#42 - Document the node module interface](https://github.com/mapbox/missed-issues/issues/new)
+```
 
 ## Flags
 
@@ -16,8 +31,8 @@ This will list all issues in the mapbox org that mention `@mapbox/teamname` wher
 
 **Optional**
 
-- `--from`: the start date of your search range. All issues returned will have been edited on or after this date. Defaults to one week ago.
-- `--ignore-repos` a comma-separated list of repos that you wish to exclude from your search results. These are excluding via filtering and will thus still affect your max-issues number.
+- `--from`: the start date of your search range. All issues returned will have been edited on or after this date. Defaults to one week ago. `from` must either be a `YYYY-MM-DD` string such as `2017-11-16` or a `###d` string suck as `21d`. The `###d` format allows for "days from now".
+- `--ignore-repos` a comma-separated list with no spaces of repos that you wish to exclude from your search results. These are excluding via filtering and will thus still affect your max-issues number. (eg: `missed-issues,mapbox-gl-draw`).
 - `--max-issues`: the max number of issues to get before filtering to help avoid long requests. Defaults to 100. That said, hitting this max is bad for your results.
 - `--nonmembers`: a comma-separated list of user logins who should not be used to count a ticket as replied too.
 
