@@ -1,0 +1,7 @@
+{
+  "token": "GITHUB_TOKEN",
+  "team": "MISSED_ISSUES_TEAM",
+  "org": "MISSED_ISSUES_ORG",
+  "ignore-repos": "MISSED_ISSUES_IGNORE_REPOS",
+  "nonmembers": "MISSED_ISSUES_NON_MEMBERS"
+}
