@@ -1,4 +1,4 @@
-# 1.2.0
+# 1.2.0 (renamed to @mapbox/missed-issues)
 
 - Support for 👍 reactions[#3](https://github.com/mapbox/missed-issues/pull/3)
 - Fix bug where `dotenv` was not in the package.json
