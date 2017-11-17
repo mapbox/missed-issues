@@ -41,9 +41,56 @@ module.exports = function(opts) {
         logger('Num Issues: ' + issues.length);
       })
     )
-    .then(() => fillInComments(opts, teamIssues)) //mutates teamIssues
-    .then(() => (teamIssues = filterIssues(teamIssues, teamMembers)));
+    .then(() => fillInComments(opts, teamIssues)) // mutates teamIssues
+    .then(() => (teamIssues = filterIssuesByComments(teamIssues, teamMembers)))
+    .then(() => fillInReactions(opts, teamIssues)) // mutates teamIssues
+    .then(
+      () =>
+        (teamIssues = filterIssuesByReactions(opts, teamIssues, teamMembers))
+    );
 };
+
+function filterIssuesByReactions(opts, issues, members) {
+  return issues.filter(iss => {
+    // only use +1 reactions
+    var hasMemberReaction = iss.reactions
+      .filter(rec => rec.content === '+1')
+      .some(rec => {
+        return members.indexOf(rec.user) > -1;
+      });
+
+    // we want to keep issues that members haven't reacted too
+    return hasMemberReaction === false;
+  });
+}
+
+function fillInReactions(opts, issues) {
+  return Promise.all(
+    issues.map(iss => {
+      var mentionedInComments = iss.comments.some(c => c.mentionsTeam);
+      if (mentionedInComments === false) return addReactions(opts, iss);
+      iss.reactions = []; // just so all issues look the same
+      return iss;
+    })
+  );
+}
+
+function addReactions(opts, iss) {
+  return safeGh(`repos/${opts.org}/${iss.repo}/issues/${iss.id}/reactions`, {
+    headers: {
+      accept: 'application/vnd.github.squirrel-girl-preview'
+    },
+    token: opts.token
+  }).then(resp => {
+    iss.reactions = resp.body.map(rec => {
+      return {
+        user: rec.user.login,
+        content: rec.content
+      };
+    });
+    return iss;
+  });
+}
 
 function logger(msg) {
   if (process.env.DEBUG === 'missed-issues') {
@@ -51,7 +98,7 @@ function logger(msg) {
   }
 }
 
-function filterIssues(issues, members) {
+function filterIssuesByComments(issues, members) {
   return issues.filter(t => {
     var lastMention = t.comments.reduce((m, c, i) => {
       if (c.mentionsTeam) return i;
@@ -99,7 +146,7 @@ function getComments(opts, ticket, page) {
       };
     });
     if (hasNext) {
-      return getComments(opts, ticket, page, comments.length).then(c =>
+      return getComments(opts, ticket, page + 1, comments.length).then(c =>
         comments.concat(c)
       );
     }
