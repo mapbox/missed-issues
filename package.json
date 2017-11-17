@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/missed-issues",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description":
     "Find all issues in a github org that mention a team by have not be replied to by the team members",
   "main": "index.js",
