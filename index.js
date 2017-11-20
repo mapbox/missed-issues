@@ -172,7 +172,9 @@ function findIssues(opts, page, numBefore) {
         url: i.html_url,
         title: i.title,
         user: i.user.login,
-        type: urlParts[urlParts.length - 2]
+        type: urlParts[urlParts.length - 2],
+        created: i.created_at, 
+        updated: i.updated_at
       };
     });
     var numNow = numBefore + issues.length;
