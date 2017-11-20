@@ -1,3 +1,7 @@
+# master
+
+- Add "created" and "updated" to the array of issues [#8 via @mptap](https://github.com/mapbox/missed-issues/pull/8)
+
 # 1.1.0 (renamed to @mapbox/missed-issues)
 
 - Support for 👍 reactions[#3](https://github.com/mapbox/missed-issues/pull/3)
