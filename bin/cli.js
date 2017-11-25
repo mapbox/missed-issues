@@ -55,6 +55,7 @@ opts.nonmembers = opts.nonmembers ? opts.nonmembers.split(',') : [];
 missedIssues(opts)
   .then(issues => {
     var lastRepo = null;
+    var lastDate = null;
     issues
       .sort((a, b) => {
         if (a.repo === b.repo) return a.id - b.id;
@@ -64,8 +65,14 @@ missedIssues(opts)
         if (lastRepo !== iss.repo) {
           console.log(`${lastRepo === null ? '' : '\n'}## ${iss.repo}\n`); // eslint-disable-line no-console
           lastRepo = iss.repo;
+          lastDate = null;
+        }
+        if (lastDate !== iss.updated_at){
+          console.log(`\n**${iss.updated_at}**\n`); // eslint-disable-line no-console
+          lastDate = iss.updated_at;
         }
         console.log(`- [ ] [#${iss.id} - ${iss.title}](${iss.url})`); // eslint-disable-line no-console
+        
       });
   })
   .catch(err => {
