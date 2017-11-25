@@ -58,7 +58,11 @@ missedIssues(opts)
     var lastDate = null;
     issues
       .sort((a, b) => {
-        if (a.repo === b.repo) return a.id - b.id;
+        if (a.repo === b.repo){
+          if (a.updated_at === b.updated_at)
+            return a.id - b.id;
+          return a.updated_at - b.updated_at;
+        }
         return a.repo < b.repo ? -1 : 1;
       })
       .map(iss => {
@@ -72,7 +76,6 @@ missedIssues(opts)
           lastDate = iss.updated_at;
         }
         console.log(`- [ ] [#${iss.id} - ${iss.title}](${iss.url})`); // eslint-disable-line no-console
-        
       });
   })
   .catch(err => {
