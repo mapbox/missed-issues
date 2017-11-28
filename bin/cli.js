@@ -59,9 +59,9 @@ missedIssues(opts)
     issues
       .sort((a, b) => {
         if (a.repo === b.repo){
-          if (a.updated_at === b.updated_at)
+          if (a.updated === b.updated)
             return a.id - b.id;
-          return a.updated_at - b.updated_at;
+          return a.updated - b.updated;
         }
         return a.repo < b.repo ? -1 : 1;
       })
@@ -71,9 +71,9 @@ missedIssues(opts)
           lastRepo = iss.repo;
           lastDate = null;
         }
-        if (lastDate !== iss.updated_at){
-          console.log(`\n**${iss.updated_at}**\n`); // eslint-disable-line no-console
-          lastDate = iss.updated_at;
+        if (lastDate !== iss.updated){
+          console.log(`\n**${iss.updated}**\n`); // eslint-disable-line no-console
+          lastDate = iss.updated;
         }
         console.log(`- [ ] [#${iss.id} - ${iss.title}](${iss.url})`); // eslint-disable-line no-console
       });
