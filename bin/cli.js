@@ -55,15 +55,29 @@ opts.nonmembers = opts.nonmembers ? opts.nonmembers.split(',') : [];
 missedIssues(opts)
   .then(issues => {
     var lastRepo = null;
+    var lastDate = null;
     issues
+      .map(iss => {
+        iss.updated = iss.updated.slice(0,10);
+        return iss;
+      })
       .sort((a, b) => {
-        if (a.repo === b.repo) return a.id - b.id;
+        if (a.repo === b.repo){
+          if (a.updated === b.updated)
+            return a.id - b.id;
+          return a.updated - b.updated;
+        }
         return a.repo < b.repo ? -1 : 1;
       })
       .map(iss => {
         if (lastRepo !== iss.repo) {
           console.log(`${lastRepo === null ? '' : '\n'}## ${iss.repo}\n`); // eslint-disable-line no-console
           lastRepo = iss.repo;
+          lastDate = null;
+        }
+        if (lastDate !== iss.updated){
+          console.log(`\n**${iss.updated}**\n`); // eslint-disable-line no-console
+          lastDate = iss.updated;
         }
         console.log(`- [ ] [#${iss.id} - ${iss.title}](${iss.url})`); // eslint-disable-line no-console
       });
