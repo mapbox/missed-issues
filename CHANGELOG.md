@@ -1,6 +1,7 @@
-# master
+# 1.2.0
 
 - Add "created" and "updated" to the array of issues [#8 via @mptap](https://github.com/mapbox/missed-issues/pull/8)
+- Break up tasks by updated date inside of a repo [#10 via @mohit2agrawal](https://github.com/mapbox/missed-issues/pull/10)
 
 # 1.1.0 (renamed to @mapbox/missed-issues)
 
