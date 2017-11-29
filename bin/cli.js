@@ -57,6 +57,10 @@ missedIssues(opts)
     var lastRepo = null;
     var lastDate = null;
     issues
+      .map(iss => {
+        iss.updated = iss.updated.slice(0,10);
+        return iss;
+      })
       .sort((a, b) => {
         if (a.repo === b.repo){
           if (a.updated === b.updated)
